@@ -2,10 +2,12 @@ PATH
   remote: .
   specs:
     orm (0.1.0)
+      sqlite3
 
 GEM
   remote: https://rubygems.org/
   specs:
+    minitest (5.11.3)
     rake (10.5.0)
     sqlite3 (1.4.1)
 
@@ -14,6 +16,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 2.0)
+  minitest
   orm!
   rake (~> 10.0)
   sqlite3 (~> 1.4, >= 1.4.1)
