@@ -1,10 +1,10 @@
-require "minitest/autorun"
+require 'minitest/autorun'
 
-require "orm/model"
+require 'orm/model'
 
 $LOAD_PATH.unshift File.expand_path File.join(File.dirname(__FILE__), "..", "lib", "orm")
 
-class Posts < ORM::Model
+class Posts < Orm::Model
 end
 
 class TestORM < MiniTest::Unit::TestCase
@@ -32,7 +32,7 @@ class TestORM < MiniTest::Unit::TestCase
   end
 
   def test_insert
-    Posts.insert "title" => "Post 1", "rating" => 3
+    Posts.insert("title" => "Post 1", "rating" => 3)
 
     row = @db.execute <<-SQL
       select title, rating from posts;
@@ -43,15 +43,15 @@ class TestORM < MiniTest::Unit::TestCase
   end
 
   def test_find
-    Posts.insert "id" => 7, "title" => "Yup"
+    Posts.insert("id" => 7, "title" => "Yup")
 
     p = Posts.find(7)
     assert_equal p["title"], "Yup"
   end
 
   def test_update
-    Posts.insert "id" => 9, "title" => "T1", "rating" => 4
-    Posts.insert "id" => 1, "title" => "T2", "rating" => 6
+    Posts.insert("id" => 9, "title" => "T1", "rating" => 4)
+    Posts.insert("id" => 1, "title" => "T2", "rating" => 6)
 
     p = Posts.find(9)
     p["rating"] = 3
@@ -106,9 +106,9 @@ class TestORM < MiniTest::Unit::TestCase
   # This isn't for the GoGaRuCo version of the talk,
   # but you can still enjoy it ;-)
   def test_method_missing
-    p = Posts.create "title" => "Why You Suck"
+    p = Posts.create "title" => "Why You Stink"
 
-    assert_equal "Why You Suck", p.title
+    assert_equal "Why You Stink", p.title
 
     p.title = "Why I Rock"
     p.update!

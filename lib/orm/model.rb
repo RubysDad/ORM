@@ -28,7 +28,7 @@ module Orm
       row = DB.execute <<-SQL
         SELECT #{schema.keys.join(',')} FROM #{table}
         WHERE id = #{id.to_i};
-      SQL #
+      SQL
 
       data = Hash[schema.keys.zip row[0]] # Takes an array of values and an array of keys and it shuffles them together and shoves them into a hash table.
       new(data)
@@ -62,7 +62,7 @@ module Orm
 
     def update!
       k = @hash.keys - ['id']
-      sql_k = k.map { |key| '#{key}=?' }
+      sql_k = k.map { |key| "#{key}=?" }
       v = k.map { |key| @hash[key] }
 
       DB.execute <<-SQL, v
@@ -76,7 +76,7 @@ module Orm
       values.delete 'id'
       insert(values)
 
-      sql = 'SELECT last_insert_row_id();' # returns the id of what was just created
+      sql = 'SELECT last_insert_rowid()' # returns the id of what was just created
       new_id = DB.execute(sql)[0][0]
       find(new_id)
     end
