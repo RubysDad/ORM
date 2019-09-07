@@ -80,5 +80,25 @@ module Orm
       new_id = DB.execute(sql)[0][0]
       find(new_id)
     end
+
+    def method_missing(name, val = nil)
+      if self.class.schema[name.to_s]
+        return self[name.to_s]  # Get value
+      end
+      if self.class.schema[name.to_s[0..-2]] &&
+          name.to_s[-1] == "="
+        return self[name.to_s] = val # Set value
+      end
+      super  # Raise an error like normal
+    end
+
+    # http://robots.thoughtbot.com/post/28335346416/always-define-respond-to-missing-when-overriding
+    def respond_to_missing?(name, include_priv = false)
+      schema = self.class.schema
+      return true if schema[name.to_s]
+      return true if schema[name.to_s[0..-2]] && name.to_s[-1] == "="
+      super
+    end
+
   end
 end
