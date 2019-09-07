@@ -59,5 +59,26 @@ module Orm
         WHERE id = #{@hash['id'].to_i}
       SQL
     end
+
+    def update!
+      k = @hash.keys - ['id']
+      sql_k = k.map { |key| '#{key}=?' }
+      v = k.map { |key| @hash[key] }
+
+      DB.execute <<-SQL, v
+        UPDATE #{self.class.table}
+        SET #{sql_k.join(',')}
+        WHERE id = #{@hash['id'].to_i}
+      SQL
+    end
+
+    def self.create(values)
+      values.delete 'id'
+      insert(values)
+
+      sql = 'SELECT last_insert_row_id();' # returns the id of what was just created
+      new_id = DB.execute(sql)[0][0]
+      find(new_id)
+    end
   end
 end
