@@ -8,7 +8,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     minitest (5.11.3)
-    rake (10.5.0)
+    rake (13.0.1)
     sqlite3 (1.4.1)
 
 PLATFORMS
@@ -18,7 +18,7 @@ DEPENDENCIES
   bundler (~> 2.0)
   minitest
   orm!
-  rake (~> 10.0)
+  rake (~> 13.0)
   sqlite3 (~> 1.4, >= 1.4.1)
 
 BUNDLED WITH
